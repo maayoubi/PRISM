@@ -1,5 +1,5 @@
 %==========================================================================
-%  HaMZSI Benchmark 1: Linear Spring-Mass Chain   (two-output, fixed-free)
+%  PRISM Benchmark 1: Linear Spring-Mass Chain   (two-output, fixed-free)
 %  -----------------------------------------------------------------------
 %  System:      4 equal masses, left end anchored to a wall, right end free
 %               (fixed-free BCs). H = sum_i p_i^2/(2m) + spring PE.
@@ -9,7 +9,7 @@
 %               matrix-valued residues R_i (rank-1 coupling Gram matrices)
 %               from the two observed channels alone.
 %
-%  Reference:   Ayoubi (2026), HaMZSI, Phys. Rev. Lett.
+%  Reference:   Ayoubi (2026), PRISM, Phys. Rev. Lett.
 %
 %  METHOD (corrected, matrix form):
 %  --------------------------------
@@ -110,7 +110,7 @@ Phi_cos = cos(tau * Omega_grid');
 tol_frac     = 0.005;   % weak top mode (near-node at free end) needs a low bar
 dOmega_merge = 0.10;
 
-%% ---- HAMZSI PHASE 1: MATRIX AUTOCORRELATION (ensemble-averaged) --------
+%% ---- PRISM PHASE 1: MATRIX AUTOCORRELATION (ensemble-averaged) --------
 fprintf('Phase 1: Computing 2x2 autocorrelation...\n');
 C11 = zeros(n_lag,1); C12 = zeros(n_lag,1); C22 = zeros(n_lag,1);
 if do_ensemble
@@ -140,7 +140,7 @@ fprintf('  C11(0)=%.5f  C22(0)=%.5f  (normalized trace used for detection)\n', .
         C11(1), C22(1));
 fprintf('  Lag window [0, %.1f] s,  Rayleigh ~ %.3f rad/s\n\n', tau(end), 2*pi/tau(end));
 
-%% ---- HAMZSI PHASE 2: FREQUENCIES FROM TRACE ----------------------------
+%% ---- PRISM PHASE 2: FREQUENCIES FROM TRACE ----------------------------
 fprintf('Phase 2: Sparse spectral identification (trace, cosine basis)...\n');
 [omega_identified, ~, coeffs, resnorm] = ...
     identify_modes(C_trace, Phi_cos, Omega_grid, tol_frac, dOmega_merge, dt);
@@ -151,7 +151,7 @@ for j = 1:nM
     fprintf('    omega_%d_hat = %.4f rad/s\n', j, omega_identified(j));
 end
 
-%% ---- HAMZSI PHASE 3: MATRIX RESIDUES + COUPLING RECOVERY ---------------
+%% ---- PRISM PHASE 3: MATRIX RESIDUES + COUPLING RECOVERY ---------------
 fprintf('\nPhase 3: matrix residue recovery...\n');
 w  = omega_identified(:);
 B  = cos(tau * w');                                  % n_lag x nM

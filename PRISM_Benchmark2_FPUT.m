@@ -1,5 +1,5 @@
 %==========================================================================
-%  HaMZSI Benchmark 2: Fermi-Pasta-Ulam-Tsingou (FPUT) Alpha-Chain
+%  PRISM Benchmark 2: Fermi-Pasta-Ulam-Tsingou (FPUT) Alpha-Chain
 %  -----------------------------------------------------------------------
 %  System:      8-particle chain with nonlinear coupling
 %               H = sum_i p_i^2/2
@@ -11,11 +11,11 @@
 %               nonlinear mode coupling as amplitude increases
 %
 %  Historical note: FPUT (1955) is the first numerical experiment in
-%  nonlinear dynamics. The alpha-chain violates HaMZSI Assumption 1
+%  nonlinear dynamics. The alpha-chain violates PRISM Assumption 1
 %  (linear coupling) intentionally, to test robustness and provide
 %  a nonlinearity diagnostic.
 %
-%  Reference:   Ayoubi (2026), HaMZSI, Phys. Rev. Lett.
+%  Reference:   Ayoubi (2026), PRISM, Phys. Rev. Lett.
 %==========================================================================
 
 clearvars; close all; clc;
@@ -91,7 +91,7 @@ E_init  = fput_energy(q0_chk, p0_chk, N, alpha_nl);
 q0_end  = x_sims{1}(end);   % only track first particle here
 fprintf('Initial energy = %.6f (conserved by integrator)\n\n', E_init);
 
-%% ---- HAMZSI PHASE 1 ----------------------------------------------------
+%% ---- PRISM PHASE 1 ----------------------------------------------------
 n_lag = 600;
 tau   = (0:n_lag-1)' * dt;
 
@@ -108,19 +108,19 @@ K_mat = diag(2*ones(N,1)) - diag(ones(N-1,1),1) - diag(ones(N-1,1),-1);
 om_modes = sqrt(max(diag(D_lin),0));
 [om_modes, si] = sort(om_modes); V_lin = V_lin(:,si);
 
-%% ---- HAMZSI PHASE 2 (cosine basis) ------------------------------------
+%% ---- PRISM PHASE 2 (cosine basis) ------------------------------------
 omega_grid = linspace(0.05, 4.0, 600)';
 Phi_cos = cos(tau * omega_grid');
 [omega_id, R_id, coeffs, resnorm] = ...
     identify_modes(C, Phi_cos, omega_grid, 0.03, 0.10, dt);
-fprintf('HaMZSI found %d active modes at A=0.1\n\n', numel(omega_id));
+fprintf('PRISM found %d active modes at A=0.1\n\n', numel(omega_id));
 
 %% ---- ENERGY-SPREADING DIAGNOSTIC (FPUT mode proliferation) -------------
 % Historical FPUT phenomenon: energy initialised in mode 1 spreads to other
 % modes as the cubic nonlinearity activates with amplitude. Since the IC
 % q0 = A*sin(pi*i/(N+1)) excites ONLY mode 1, at small A the observable q_1
 % shows a single spectral peak; as A grows, nonlinear coupling populates more
-% modes and HaMZSI detects more active peaks. We therefore track the NUMBER
+% modes and PRISM detects more active peaks. We therefore track the NUMBER
 % of active spectral peaks vs amplitude -- a direct, data-driven measure of
 % nonlinear energy spreading -- rather than a frequency error against modes
 % that are not even excited at small A.

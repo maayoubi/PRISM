@@ -1,5 +1,5 @@
 %==========================================================================
-%  HaMZSI Benchmark 3: Hénon-Heiles System
+%  PRISM Benchmark 3: Hénon-Heiles System
 %  -----------------------------------------------------------------------
 %  System:      2D Hamiltonian with nonlinear coupling
 %               H = (px^2 + py^2)/2 + (x^2 + y^2)/2 + x^2*y - y^3/3
@@ -13,11 +13,11 @@
 %    - 1/12 < E < 1/6:  quasi-periodic with KAM tori
 %    - E > 1/6:  chaotic, escape possible
 %
-%  Significance: Tests HaMZSI on Hamiltonian chaos, which is fundamentally
+%  Significance: Tests PRISM on Hamiltonian chaos, which is fundamentally
 %  different from dissipative chaos (Lorenz). No attractor → Liouville
-%  theorem holds → HaMZSI passivity guarantees apply.
+%  theorem holds → PRISM passivity guarantees apply.
 %
-%  Reference:   Ayoubi (2026), HaMZSI, Phys. Rev. Lett.
+%  Reference:   Ayoubi (2026), PRISM, Phys. Rev. Lett.
 %==========================================================================
 
 clearvars; close all; clc;
@@ -83,7 +83,7 @@ rng(42);
 x_qp_n = x_qp + noise_pct*std(x_qp)*randn(Nt,1);
 x_ch_n  = x_ch  + noise_pct*std(x_ch)*randn(Nt,1);
 
-%% ---- HAMZSI: RUN ON BOTH REGIMES ---------------------------------------
+%% ---- PRISM: RUN ON BOTH REGIMES ---------------------------------------
 n_lag      = 1500;   % 75 s window -> Rayleigh ~0.08 rad/s (was 25 s ~0.25);
                      % long enough to resolve genuine KAM frequencies if any
                      % exist, and to confirm the single dominant peak if not
@@ -91,12 +91,12 @@ tau        = (0:n_lag-1)'*dt;
 omega_grid = linspace(0.3, 3.5, 500)';
 Phi_cos    = cos(tau * omega_grid');
 
-% Cosine-basis HaMZSI core (replaces the old short-time K=-Cddot/C0 + sine
+% Cosine-basis PRISM core (replaces the old short-time K=-Cddot/C0 + sine
 % fit). Returns the autocorrelation C, its cosine reconstruction Crec (shown
 % in place of the old "kernel"), and the identified effective frequencies.
 % NOTE: Henon-Heiles is nonlinear; we report FREQUENCIES and a chaos
 % diagnostic only -- NOT residues (the effective modes are not exact).
-function [C, Crec, omega_id, R_id] = run_hamzsi(x, n_lag_i, dt_i, Phi_i, omega_grid_i, tol_fr)
+function [C, Crec, omega_id, R_id] = run_prism(x, n_lag_i, dt_i, Phi_i, omega_grid_i, tol_fr)
     C = autocorr_biased(x, n_lag_i);
     [omega_id, R_id] = identify_modes(C, Phi_i, omega_grid_i, tol_fr, 0.08, dt_i);
     if isempty(omega_id)
@@ -113,8 +113,8 @@ end
 % dominant peak near omega=1 into two spurious lines separated by less than
 % the lag-window Rayleigh resolution -- i.e. fake structure. The regular
 % x(t) is, to the available resolution, a single dominant frequency.)
-[C_qp, K_qp, om_qp, R_qp] = run_hamzsi(x_qp_n, n_lag, dt, Phi_cos, omega_grid, 0.03);
-[C_ch, K_ch, om_ch, R_ch] = run_hamzsi(x_ch_n, n_lag, dt, Phi_cos, omega_grid, 0.03);
+[C_qp, K_qp, om_qp, R_qp] = run_prism(x_qp_n, n_lag, dt, Phi_cos, omega_grid, 0.03);
+[C_ch, K_ch, om_ch, R_ch] = run_prism(x_ch_n, n_lag, dt, Phi_cos, omega_grid, 0.03);
 
 % Linear normal mode frequencies at origin: omega_1 = omega_2 = 1.0
 % Linearized frequency from the x observable at the well bottom is omega=1
