@@ -129,8 +129,8 @@ else
     C22 = xcorr_biased(X_noisy(:,2), X_noisy(:,2), n_lag);
 end
 % Channel-normalized trace for FREQUENCY DETECTION. Without normalization the
-% higher-variance channel dominates the trace (here C22 from the free end
-% the free-end channel q_4 carries more variance), which can bury a mode weak in
+% higher-variance channel dominates the trace (here C22, since the free-end
+% channel q_4 carries more variance), which can bury a mode weak in
 % that channel -- e.g. the top mode, nearly a node at the free end. Dividing
 % each channel by its zero-lag value gives both sensors equal say, so a mode
 % present in EITHER channel survives the peak search. (Residue magnitudes in
