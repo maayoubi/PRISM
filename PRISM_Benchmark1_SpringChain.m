@@ -209,7 +209,7 @@ x_pred  = x1_pred;                          % kept for any downstream use
 t_split = t_vec(n_fit);
 
 %% ---- PLOTTING -----------------------------------------------------------
-figure('Name','B1: Spring-Mass Chain (2 outputs)','Color','w','Position',[50 50 950 680]);
+figure('Name','B1: Spring-Mass Chain (2 outputs)','Color','w','Units','centimeters','Position',[2 2 17.4 12.5]);
 
 win = (t_vec >= t_split-30) & (t_vec <= t_split+90);
 
@@ -221,12 +221,12 @@ yl = ylim;
 patch([t_split-30 t_split t_split t_split-30],[yl(1) yl(1) yl(2) yl(2)], ...
       [0.85 0.9 1.0],'EdgeColor','none','FaceAlpha',0.35);
 xline(t_split, ':k','LineWidth',1.2);
-text(t_split-26, yl(2)*0.82,'fit','Interpreter','latex','FontSize',7);
-text(t_split+6,  yl(2)*0.82,'forecast','Interpreter','latex','FontSize',7);
+text(t_split-26, yl(2)*0.82,'fit','Interpreter','latex','FontSize',8);
+text(t_split+6,  yl(2)*0.82,'forecast','Interpreter','latex','FontSize',8);
 xlabel('Time $t$ (s)','Interpreter','latex'); ylabel('$q_1(t)$ (m)','Interpreter','latex');
-title('(a) Channel $q_1$: forecast vs truth','Interpreter','latex');
+title('(a) Forecast, channel $q_1$','Interpreter','latex','FontSize',10);
 legend({'True $q_1$','Forecast $\hat{q}_1$'},'Interpreter','latex','FontSize',8);
-xlim([t_split-30, t_split+90]); grid on; box on; set(gca,'FontSize',9);
+xlim([t_split-30, t_split+90]); grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
 % (b) Channel q4: data + out-of-sample forecast
 subplot(2,2,2)
@@ -236,12 +236,12 @@ yl = ylim;
 patch([t_split-30 t_split t_split t_split-30],[yl(1) yl(1) yl(2) yl(2)], ...
       [0.88 0.96 0.9],'EdgeColor','none','FaceAlpha',0.4);
 xline(t_split, ':k','LineWidth',1.2);
-text(t_split-26, yl(2)*0.82,'fit','Interpreter','latex','FontSize',7);
-text(t_split+6,  yl(2)*0.82,'forecast','Interpreter','latex','FontSize',7);
+text(t_split-26, yl(2)*0.82,'fit','Interpreter','latex','FontSize',8);
+text(t_split+6,  yl(2)*0.82,'forecast','Interpreter','latex','FontSize',8);
 xlabel('Time $t$ (s)','Interpreter','latex'); ylabel('$q_4(t)$ (m)','Interpreter','latex');
-title('(b) Channel $q_4$: forecast vs truth','Interpreter','latex');
+title('(b) Forecast, channel $q_4$','Interpreter','latex','FontSize',10);
 legend({'True $q_4$','Forecast $\hat{q}_4$'},'Interpreter','latex','FontSize',8);
-xlim([t_split-30, t_split+90]); grid on; box on; set(gca,'FontSize',9);
+xlim([t_split-30, t_split+90]); grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
 % (c) Residue recovery: recovered vs true entries (11 and 12)
 subplot(2,2,3)
@@ -256,10 +256,10 @@ stem(w, g12, 'ks', 'MarkerSize',6,'LineWidth',1.0);
 stem(w, r12, 'Color',[0.1 0.6 0.3],'Marker','o','MarkerFaceColor',[0.1 0.6 0.3],'MarkerSize',4);
 xlabel('Frequency $\omega$ (rad/s)','Interpreter','latex');
 ylabel('Residue entries','Interpreter','latex');
-title('(c) Matrix residue recovery','Interpreter','latex');
+title('(c) Residue recovery','Interpreter','latex','FontSize',10);
 legend({'True $\omega_i^*$','$R^{true}_{11}$','$R^{rec}_{11}$','$R^{true}_{12}$','$R^{rec}_{12}$'}, ...
-       'Interpreter','latex','FontSize',7,'Location','northeast');
-xlim([0, 2.6]); grid on; box on; set(gca,'FontSize',9);
+       'Interpreter','latex','FontSize',8,'Location','northeast');
+xlim([0, 2.6]); grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
 % (d) Coupling-matrix recovery: recovered vs true entries, grouped by mode.
 % Each mode contributes three independent entries (R11, R12, R22; R21=R12);
@@ -287,16 +287,15 @@ grp_centers = 3*(0:nMshow-1) + 2;
 set(gca, 'XTick', grp_centers, ...
          'XTickLabel', arrayfun(@(i) sprintf('$\\omega_%d$',i), 1:nMshow, ...
                                 'UniformOutput', false), ...
-         'TickLabelInterpreter','latex', 'FontSize', 9);
+         'TickLabelInterpreter','latex','FontSize',9,'GridAlpha',0.12,'LineWidth',0.5);
+xlabel('Frequency $\omega$ (rad/s)','Interpreter','latex');
 ylabel('Residue entry','Interpreter','latex');
-title('(d) Coupling matrices: recovered vs.\ true','Interpreter','latex');
+title('(d) Coupling matrices','Interpreter','latex','FontSize',10);
 legend({'True','Recovered'},'Interpreter','latex','FontSize',8,'Location','northeast');
 grid on; box on;
 text(0.02, 0.93, sprintf('mean Frobenius error %.1f\\%%',100*mean(errF)), ...
      'Interpreter','latex','Units','normalized','FontSize',8);
 
-sgtitle('Benchmark 1: Spring--Mass Chain ($N=4$, observe $q_1,q_4$, fixed--free)', ...
-        'Interpreter','latex','FontSize',11,'FontWeight','bold');
 % Use exportgraphics for clean vector text (R2020a+); fall back to print.
 if exist('exportgraphics','file')
     exportgraphics(gcf,'Fig1_SpringMassChain.pdf','ContentType','vector');

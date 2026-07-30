@@ -155,25 +155,25 @@ for i = 2:Nt
 end
 
 %% ---- PLOTTING -----------------------------------------------------------
-figure('Name','B3: Henon-Heiles','Color','w','Position',[50 50 950 680]);
+figure('Name','B3: Henon-Heiles','Color','w','Units','centimeters','Position',[2 2 17.4 12.5]);
 
 subplot(2,2,1)
 plot(x_qp, y_qp, '-','Color',[0.3 0.3 0.8],'LineWidth',0.4); hold on;
 plot(x_ch,  y_ch,  '-','Color',[0.8 0.2 0.1],'LineWidth',0.25);
 xlabel('$x$','Interpreter','latex'); ylabel('$y$','Interpreter','latex');
-title('(a) Configuration space trajectory','Interpreter','latex');
+title('(a) Configuration-space trajectory','Interpreter','latex','FontSize',10);
 legend({sprintf('$E=%.2f$ (q.-periodic)',E_qp), sprintf('$E=%.2f$ (chaotic)',E_ch)}, ...
        'Interpreter','latex','FontSize',8);
-grid on; box on; set(gca,'FontSize',9);
+grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
 subplot(2,2,2)
 plot(t_vec(1:2001), x_qp(1:2001),'-','Color',[0.3 0.3 0.8],'LineWidth',0.9); hold on;
 plot(t_vec(1:2001), x_ch(1:2001), '-','Color',[0.8 0.2 0.1],'LineWidth',0.9);
 xlabel('Time $t$ (s)','Interpreter','latex');
 ylabel('Observable $x(t)$','Interpreter','latex');
-title('(b) Observable time series','Interpreter','latex');
+title('(b) Observable time series','Interpreter','latex','FontSize',10);
 legend({sprintf('$E=%.2f$',E_qp), sprintf('$E=%.2f$',E_ch)}, 'Interpreter','latex','FontSize',8);
-grid on; box on; set(gca,'FontSize',9);
+grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
 % ---- forecasts (fit identified-mode tones on first 40%, predict forward) --
 % Regular (KAM) motion is quasi-periodic -> multi-tone fit should track.
@@ -197,13 +197,13 @@ yl = ylim;
 patch([t_split-30 t_split t_split t_split-30],[yl(1) yl(1) yl(2) yl(2)], ...
       [0.9 0.92 0.97],'EdgeColor','none','FaceAlpha',0.5);
 xline(t_split, ':k','LineWidth',1.0);
-text(t_split-26, yl(2)*0.8,'fit','Interpreter','latex','FontSize',7);
-text(t_split+6,  yl(2)*0.8,'forecast','Interpreter','latex','FontSize',7);
+text(t_split-26, yl(2)*0.8,'fit','Interpreter','latex','FontSize',8);
+text(t_split+6,  yl(2)*0.8,'forecast','Interpreter','latex','FontSize',8);
 xlabel('Time $t$ (s)','Interpreter','latex');
 ylabel('Observable $x(t)$','Interpreter','latex');
-title(sprintf('(c) Regular forecast ($E=%.2f$)',E_qp),'Interpreter','latex');
+title('(c) Regular forecast','Interpreter','latex','FontSize',10);
 legend({'True $x$','Forecast $\hat{x}$'},'Interpreter','latex','FontSize',8,'Location','southwest');
-xlim([t_split-30, t_split+90]); grid on; box on; set(gca,'FontSize',9);
+xlim([t_split-30, t_split+90]); grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
 % (d) chaotic-regime forecast: diverges (by definition of chaos)
 subplot(2,2,4)
@@ -213,17 +213,15 @@ yl = ylim;
 patch([t_split-30 t_split t_split t_split-30],[yl(1) yl(1) yl(2) yl(2)], ...
       [0.97 0.9 0.9],'EdgeColor','none','FaceAlpha',0.5);
 xline(t_split, ':k','LineWidth',1.0);
-text(t_split-26, yl(2)*0.8,'fit','Interpreter','latex','FontSize',7);
-text(t_split+6,  yl(2)*0.8,'forecast','Interpreter','latex','FontSize',7);
+text(t_split-26, yl(2)*0.8,'fit','Interpreter','latex','FontSize',8);
+text(t_split+6,  yl(2)*0.8,'forecast','Interpreter','latex','FontSize',8);
 xlabel('Time $t$ (s)','Interpreter','latex');
 ylabel('Observable $x(t)$','Interpreter','latex');
-title(sprintf('(d) Chaotic forecast ($E=%.2f$): diverges',E_ch),'Interpreter','latex');
+title('(d) Chaotic forecast: diverges','Interpreter','latex','FontSize',10);
 legend({'True $x$','Forecast $\hat{x}$'},'Interpreter','latex','FontSize',8,'Location','southwest');
-xlim([t_split-30, t_split+90]); grid on; box on; set(gca,'FontSize',9);
+xlim([t_split-30, t_split+90]); grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
-sgtitle(['Benchmark 3: H\''enon--Heiles System  (observe $x(t)$, hide $y(t)$)'], ...
-        'Interpreter','latex','FontSize',11,'FontWeight','bold');
-saveas(gcf,'Fig3_HenonHeiles.pdf');
+exportgraphics(gcf,'Fig3_HenonHeiles.pdf','ContentType','vector');
 fprintf('Figure saved: Fig3_HenonHeiles.pdf\n');
 
 %==========================================================================

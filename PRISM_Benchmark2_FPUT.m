@@ -153,7 +153,7 @@ fprintf('(Residues are NOT reported: nonlinear coupling means the modes are\n');
 fprintf(' not exact, so a linear-residue claim would be ill-defined.)\n');
 
 %% ---- PLOTTING -----------------------------------------------------------
-figure('Name','B2: FPUT Chain','Color','w','Position',[50 50 950 680]);
+figure('Name','B2: FPUT Chain','Color','w','Units','centimeters','Position',[2 2 17.4 12.5]);
 
 subplot(2,2,1)
 idx_p = 1:3001;
@@ -161,9 +161,9 @@ plot(t_vec(idx_p), x_sims{1}(idx_p), 'Color',[0.1 0.6 0.3], 'LineWidth',0.9); ho
 plot(t_vec(idx_p), x_sims{2}(idx_p), 'Color',[0.8 0.2 0.1], 'LineWidth',0.9);
 xlabel('Time $t$ (s)','Interpreter','latex');
 ylabel('$q_1(t)$ (m)','Interpreter','latex');
-title('(a) Observable at two amplitudes','Interpreter','latex');
+title('(a) Observable at two amplitudes','Interpreter','latex','FontSize',10);
 legend({'$A=0.1$ (near-linear)','$A=0.8$ (nonlinear)'}, 'Interpreter','latex','FontSize',8);
-grid on; box on; set(gca,'FontSize',9);
+grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
 subplot(2,2,2)
 B_fit   = cos(tau * omega_id(:)');
@@ -172,19 +172,19 @@ plot(tau(1:300), C(1:300)/C(1), '-', 'Color',[0.1,0.6,0.3],'LineWidth',1.1); hol
 plot(tau(1:300), C_recon(1:300)/C(1), '--', 'Color',[0.85,0.4,0],'LineWidth',1.3);
 xlabel('Lag $\tau$ (s)','Interpreter','latex');
 ylabel('$C(\tau)/C(0)$','Interpreter','latex');
-title('(b) Autocorrelation fit ($A=0.1$)','Interpreter','latex');
+title('(b) Autocorrelation fit ($A=0.1$)','Interpreter','latex','FontSize',10);
 legend({'Measured $C(\tau)$','Cosine reconstruction'},'Interpreter','latex','FontSize',8);
-grid on; box on; set(gca,'FontSize',9);
+grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
 subplot(2,2,3)
 stairs(amp_study, npeak_study, 'gs-', 'LineWidth',2.0,'MarkerSize',7, ...
        'MarkerFaceColor','w','MarkerEdgeColor',[0.1 0.5 0.2]); hold on;
 xlabel('Initial amplitude $A$','Interpreter','latex');
 ylabel('Active spectral peaks','Interpreter','latex');
-title('(c) Nonlinear energy spreading','Interpreter','latex');
-ylim([0, max(npeak_study)+1]); grid on; box on; set(gca,'FontSize',9);
+title('(c) Nonlinear energy spreading','Interpreter','latex','FontSize',10);
+ylim([0, max(npeak_study)+1]); grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 text(0.06, max(npeak_study)+0.5, 'more modes populate as $A$ grows', ...
-     'Interpreter','latex','FontSize',7,'Color',[0.4 0.4 0.4]);
+     'Interpreter','latex','FontSize',8,'Color',[0.4 0.4 0.4]);
 
 subplot(2,2,4)
 % Out-of-sample forecast at A=0.1: fit tone amplitudes of the identified
@@ -204,17 +204,15 @@ yl = ylim;
 patch([t_split-40 t_split t_split t_split-40],[yl(1) yl(1) yl(2) yl(2)], ...
       [0.9 0.95 0.9],'EdgeColor','none','FaceAlpha',0.4);
 xline(t_split, ':k','LineWidth',1.0);
-text(t_split-35, yl(2)*0.8, 'fit', 'Interpreter','latex','FontSize',7);
-text(t_split+8,  yl(2)*0.8, 'forecast', 'Interpreter','latex','FontSize',7);
+text(t_split-35, yl(2)*0.8, 'fit', 'Interpreter','latex','FontSize',8);
+text(t_split+8,  yl(2)*0.8, 'forecast', 'Interpreter','latex','FontSize',8);
 xlabel('Time $t$ (s)','Interpreter','latex');
 ylabel('$q_1(t)$ (m)','Interpreter','latex');
-title('(d) Forecast at $A=0.1$ (near-linear)','Interpreter','latex');
+title('(d) Forecast ($A=0.1$)','Interpreter','latex','FontSize',10);
 legend({'True $q_1$','Forecast $\hat{q}_1$'},'Interpreter','latex','FontSize',8);
-xlim([t_split-40, t_split+160]); grid on; box on; set(gca,'FontSize',9);
+xlim([t_split-40, t_split+160]); grid on; box on; set(gca,'FontSize',9,'TickLabelInterpreter','latex','GridAlpha',0.12,'LineWidth',0.5);
 
-sgtitle('Benchmark 2: Fermi--Pasta--Ulam--Tsingou $\alpha$-Chain ($N=8$)', ...
-        'Interpreter','latex','FontSize',11,'FontWeight','bold');
-saveas(gcf,'Fig2_FPUT.pdf');
+exportgraphics(gcf,'Fig2_FPUT.pdf','ContentType','vector');
 fprintf('\nFigure saved: Fig2_FPUT.pdf\n');
 
 %==========================================================================
